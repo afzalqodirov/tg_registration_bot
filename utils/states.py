@@ -8,7 +8,8 @@ class RegisterState(StatesGroup):
 class ProductState(StatesGroup):
     name = State()
     category = State()
-    descriptioin = State()
+    description = State()
 
 class CategoryState(StatesGroup):
     name = State()
+    search = State()

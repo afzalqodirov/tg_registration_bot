@@ -36,13 +36,21 @@ class Products:
     description TEXT
     )
     """
-
+    id = 0
     @classmethod
     def list_products(cls) -> str:
         products = ''
         cursor.execute('Select * from products')
         for i in cursor.fetchall():products += i + '\n'
+        if not products:products = 'Nothing has found'
         return products
+    
+    @classmethod
+    def add_product(cls, name, category, description) -> bool:
+        sql = "INSERT INTO products (id, name, category, description) "
+        f"Values ({Products.id},'{name}', '{category}', '{description}')"
+        try:cursor.execute(sql);conn.commit();Products.id += 1;return True
+        except Exception as e:print(e);return False
 
 class Categories:
     """
@@ -51,10 +59,11 @@ class Categories:
     name TEXT UNIQUE NOT NULL
     )
     """
+    id = 0
     @classmethod
     def list_categories(cls, query=None) -> str:
-        sql = 'Select * from categories'
-        if query:sql += f"Where name ilike {query}"
+        sql = 'Select * from categories '
+        if query:sql += f"Where name like '{query}'"
         categories = ''
         cursor.execute(sql)
         for x, i in enumerate(cursor.fetchall()):categories +=str(x+1)+'. '+str(i[1]) + '\n'
@@ -63,6 +72,6 @@ class Categories:
     
     @classmethod
     def add_category(cls, name) -> bool:
-        try:cursor.execute("insert into categories (name)" \
-            f"values ('{name}')");conn.commit();return True
+        try:cursor.execute("insert into categories (id, name)" \
+            f"values ({Categories.id},'{name}')");conn.commit();Categories.id+=1;return True
         except Exception as e:print(e);return False
