@@ -13,3 +13,6 @@ class ProductState(StatesGroup):
 class CategoryState(StatesGroup):
     name = State()
     search = State()
+
+class CategoryRemove(StatesGroup):
+    id = State()

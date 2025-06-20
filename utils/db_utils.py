@@ -66,7 +66,7 @@ class Categories:
         if query:sql += f"Where name like '{query}'"
         categories = ''
         cursor.execute(sql)
-        for x, i in enumerate(cursor.fetchall()):categories +=str(x+1)+'. '+str(i[1]) + '\n'
+        for x, i in enumerate(cursor.fetchall()):categories +=str(x+1)+'. '+str(i[1]) + f'(id={i[0]})' + '\n'
         if not categories:categories = 'Nothing has found'
         return categories
     
@@ -74,4 +74,10 @@ class Categories:
     def add_category(cls, name) -> bool:
         try:cursor.execute("insert into categories (id, name)" \
             f"values ({Categories.id},'{name}')");conn.commit();Categories.id+=1;return True
+        except Exception as e:print(e);return False
+    
+    @classmethod
+    def remove_category(cls, id) -> bool:
+        sql = f'Delete from categories where id = {id}'
+        try:cursor.execute(sql);conn.commit();return True
         except Exception as e:print(e);return False

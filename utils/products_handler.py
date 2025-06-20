@@ -5,7 +5,7 @@ from aiogram.fsm.context import FSMContext
 
 #my imports
 from .db_utils import Categories, Products
-from .states import CategoryState, ProductState
+from .states import CategoryState, ProductState, CategoryRemove
 
 router3 = Router()
 
@@ -64,3 +64,15 @@ async def search_category(message:Message, state:FSMContext):
 @router3.message(CategoryState.search)
 async def search_with_query(message:Message, state:FSMContext):
     await message.answer(Categories.list_categories(message.text))
+
+@router3.message(Command('remove_category'))
+async def remove_category_by_id(message:Message, state:FSMContext):
+    await message.answer(Categories.list_categories())
+    await message.answer('Write the id of the category to be removed')
+    await state.clear()
+    await state.set_state(CategoryRemove.id)
+
+@router3.message(CategoryRemove.id)
+async def remove_category(message:Message, state:FSMContext):
+    if Categories.remove_category(message.text):await message.answer('The category successfully removed');return
+    await message.answer(f'Couldn\'t remove category with id {message.text}')

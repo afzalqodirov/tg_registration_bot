@@ -8,6 +8,7 @@ custom_commands = [
     BotCommand(command='list_products', description='returns a list of a product'),
     BotCommand(command='add_product', description='add a new product'),
     BotCommand(command='search_category', description='search a category'),
+    BotCommand(command='remove_category', description='removes category by id')
 ]
 phone_markup = ReplyKeyboardMarkup(
     keyboard=[[KeyboardButton(text='Send phone number',request_contact=True)]],
