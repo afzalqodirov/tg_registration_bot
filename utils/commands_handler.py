@@ -24,7 +24,3 @@ async def get_first_name(message:Message, state:FSMContext) -> None:
                              'Iltimos ismingizni kiriting')
         await state.set_state(RegisterState.first_name)
     except Exception as e:print(e)
-
-@router1.message(Command('add_category'))
-async def add_category(message: Message):
-    pass

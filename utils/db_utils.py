@@ -52,10 +52,13 @@ class Categories:
     )
     """
     @classmethod
-    def list_categories(cls) -> str:
+    def list_categories(cls, query=None) -> str:
+        sql = 'Select * from categories'
+        if query:sql += f"Where name ilike {query}"
         categories = ''
-        cursor.execute('Select * from categories')
-        for i in cursor.fetchall():categories += i + '\n'
+        cursor.execute(sql)
+        for x, i in enumerate(cursor.fetchall()):categories +=str(x+1)+'. '+str(i[1]) + '\n'
+        if not categories:categories = 'Nothing has found'
         return categories
     
     @classmethod

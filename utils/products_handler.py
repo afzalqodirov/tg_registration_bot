@@ -15,6 +15,7 @@ async def list_categories(message:Message):
 
 @router3.message(Command('add_category'))
 async def add_category_handler(message:Message, state: FSMContext):
+    print('The add category is working?')
     await message.answer('Kategoriya ismini kiriting')
     await state.clear()
     await state.set_state(CategoryState.name)
